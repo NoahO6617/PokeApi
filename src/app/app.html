@@ -34,7 +34,7 @@
 
       <h2>{{ p.name }}</h2>
 
-      <p>#{{ p.id }}</p>
+      <p>#{{ $any(p).id }}</p>
 
       <div class="types">
         @for (type of p.types; track type.slot) {
@@ -54,10 +54,5 @@
     </section>
 
     }
-
-    <footer>
-      Powered by <strong>PokeAPI</strong>
-    </footer>
-
   </section>
 </main>
