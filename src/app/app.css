@@ -55,12 +55,18 @@ body {
   text-align: center;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pokemon-image {
   width: 180px;
   height: 180px;
+  display: block;
+  margin: 0 auto;
 }
 
 .types {
