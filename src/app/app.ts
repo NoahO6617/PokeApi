@@ -1,12 +1,36 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, of, Subject, switchMap } from 'rxjs';
+
+import { PokemonService } from './pokemon.service';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
   templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Pokeapi');
+
+  private pokemonService = inject(PokemonService);
+
+  private searchSubject = new Subject<string>();
+
+  pokemon = toSignal(
+    this.searchSubject.pipe(
+      switchMap((name) =>
+        this.pokemonService.getPokemon(name).pipe(
+          catchError(() => of(null))
+        )
+      )
+    ),
+    { initialValue: null }
+  );
+
+  searchPokemon(name: string): void {
+    const pokemonName = name.trim();
+
+    if (pokemonName) {
+      this.searchSubject.next(pokemonName);
+    }
+  }
 }
