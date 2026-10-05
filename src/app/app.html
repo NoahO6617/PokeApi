@@ -1,101 +1,63 @@
-
 <main class="page">
-
-  <div class="background-circle circle-one"></div>
-  <div class="background-circle circle-two"></div>
-
   <section class="container">
 
     <header class="header">
-      <div class="pokeball">
-        <div class="pokeball-center"></div>
-      </div>
-
-      <div>
-        <p class="subtitle">POKÉDEX</p>
-        <h1>Pokémon Search</h1>
-        <p class="description">
-          Search for your favorite Pokémon
-        </p>
-      </div>
+      <h1>Pokédex</h1>
+      <p>Busca tu Pokémon favorito</p>
     </header>
 
     <form
       class="search-form"
       (submit)="$event.preventDefault(); searchPokemon(searchInput.value)"
     >
-      <div class="input-wrapper">
-        <span class="search-icon">⌕</span>
-
-        <input
-          #searchInput
-          id="pokemon"
-          type="text"
-          placeholder="Search by name or number..."
-          autocomplete="off"
-        />
-      </div>
+      <input
+        #searchInput
+        type="text"
+        placeholder="Nombre o número del Pokémon"
+        autocomplete="off"
+      />
 
       <button type="submit">
-        Search
+        Buscar
       </button>
     </form>
 
     @if (pokemon(); as p) {
 
-      <article class="pokemon-card">
+    <article class="pokemon-card">
 
-        <div class="pokemon-image-container">
-          <div class="image-background"></div>
+      <img
+        class="pokemon-image"
+        [src]="p.sprites.front_default"
+        [alt]="p.name"
+      />
 
-          <img
-            class="pokemon-image"
-            [src]="p.sprites.front_default"
-            [alt]="'Image of ' + p.name"
-          />
-        </div>
+      <h2>{{ p.name }}</h2>
 
-        <div class="pokemon-info">
+      <p>#{{ p.id }}</p>
 
-          <span class="pokemon-label">
-            #{{ $any(p).id }}
-          </span>
+      <div class="types">
+        @for (type of p.types; track type.slot) {
+        <span class="type-badge">
+          {{ type.type.name }}
+        </span>
+        }
+      </div>
 
-          <h2>{{ p.name }}</h2>
-
-          <div class="types">
-            @for (type of p.types; track type.slot) {
-              <span class="type-badge">
-                {{ type.type.name }}
-              </span>
-            }
-          </div>
-
-        </div>
-
-      </article>
+    </article>
 
     } @else {
 
-      <section class="empty-state">
-        <div class="empty-pokeball">
-          <div class="empty-pokeball-center"></div>
-        </div>
-
-        <h2>Find a Pokémon</h2>
-
-        <p>
-          Enter a Pokémon name or number to discover its information.
-        </p>
-      </section>
+    <section class="empty-state">
+      <h2>🔍 Busca un Pokémon</h2>
+      <p>Introduce un nombre o número.</p>
+    </section>
 
     }
 
     <footer>
-      <span>Powered by</span>
-      <strong>PokeAPI</strong>
+      Powered by <strong>PokeAPI</strong>
     </footer>
 
   </section>
-
 </main>
